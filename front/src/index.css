@@ -1,0 +1,81 @@
+/* On importe Tailwind CSS — c'est une boîte à outils géante avec plein de classes CSS prêtes à l'emploi */
+/* Au lieu d'écrire du CSS à la main, on utilise des noms de classes comme "bg-red" pour colorer en rouge */
+@import "tailwindcss";
+
+/* @theme définit nos couleurs et polices personnalisées — c'est comme créer notre propre palette de peinture */
+/* Ces variables seront utilisables partout dans l'appli avec les classes Tailwind */
+@theme {
+    /* Couleur beige clair — c'est la couleur de fond principale, inspirée du style Valorant */
+    --color-beige: #ece8e1;
+    /* Couleur beige plus foncée — utilisée pour les éléments qui doivent ressortir un peu sur le fond beige */
+    --color-beige-dark: #ddd8cf;
+    /* Couleur blanche pour les cartes — le fond des boîtes de contenu */
+    --color-white-card: #ffffff;
+    /* Couleur bleu marine foncé — comme le ciel de nuit, c'est la couleur sombre principale de Valorant */
+    --color-navy: #0f1923;
+    /* Bleu marine pour les cartes — un peu plus clair que le navy, pour les boîtes sur fond sombre */
+    --color-navy-card: #1a2634;
+    /* Bleu marine encore plus clair — pour les éléments qui doivent être visibles sur le fond navy */
+    --color-navy-lighter: #243447;
+    /* Couleur sombre pour la barre de navigation — presque noir avec une touche de bleu */
+    --color-dark-bar: #1f2326;
+    /* Couleur sombre pour les champs de saisie — pour que le texte blanc ressorte bien */
+    --color-dark-input: #1e1e1e;
+    /* Rouge Valorant — LA couleur signature du jeu, utilisée pour les boutons et accents importants */
+    --color-val-red: #ff4656;
+    /* Rouge Valorant foncé — version plus sombre du rouge, utilisée quand on survole un bouton rouge */
+    --color-val-red-dark: #e63e4b;
+    /* Police Oswald — une police grande et imposante, utilisée pour les titres en majuscules style Valorant */
+    --font-oswald: 'Oswald', sans-serif;
+    /* Police Rajdhani — une police moderne et lisible, utilisée pour le texte courant de l'appli */
+    --font-rajdhani: 'Rajdhani', sans-serif;
+}
+
+/* On style le body — c'est le corps entier de la page, tout ce qu'on voit à l'écran */
+body {
+    /* On enlève toutes les marges par défaut — pour que notre appli colle aux bords de l'écran */
+    margin: 0;
+    /* On enlève tout l'espacement intérieur par défaut — même raison, pas d'espace indésirable */
+    padding: 0;
+    /* On définit la police par défaut de toute l'appli — Rajdhani, notre police choisie */
+    font-family: var(--font-rajdhani);
+    /* On met le fond en beige — la couleur de base de notre appli, comme le papier sur lequel on dessine */
+    background: #ece8e1;
+    /* On active le lissage des polices sur les navigateurs WebKit (Chrome, Safari) — les lettres sont plus douces et jolies */
+    -webkit-font-smoothing: antialiased;
+}
+
+/* On personnalise la barre de défilement (scrollbar) sur les navigateurs WebKit */
+/* C'est la petite barre sur le côté droit quand la page est trop longue */
+::-webkit-scrollbar {
+    /* La barre fait seulement 4 pixels de large — très fine et discrète, comme un fil */
+    width: 4px;
+}
+/* Le fond de la piste de la scrollbar — la "route" sur laquelle le curseur glisse */
+::-webkit-scrollbar-track {
+    /* On rend le fond transparent — invisible, on ne voit que le curseur */
+    background: transparent;
+}
+/* Le curseur de la scrollbar — le petit rectangle qu'on déplace pour défiler */
+::-webkit-scrollbar-thumb {
+    /* On le colore en rouge Valorant semi-transparent (80 en hexa = 50% d'opacité) — discret mais stylé */
+    background: #ff465580;
+    /* On arrondit les coins du curseur — pour qu'il soit tout doux et pas carré */
+    border-radius: 4px;
+}
+
+/* On définit une animation appelée "fade-in" — c'est un effet d'apparition progressive */
+/* Comme quand une image apparaît doucement au lieu de surgir d'un coup */
+@keyframes fade-in {
+    /* Au début de l'animation (from), l'élément est invisible — opacité à 0 */
+    from { opacity: 0; }
+    /* À la fin de l'animation (to), l'élément est complètement visible — opacité à 1 */
+    to { opacity: 1; }
+}
+
+/* La classe qu'on applique aux éléments pour déclencher l'animation fade-in */
+.animate-fade-in {
+    /* On lance l'animation fade-in, qui dure 0.2 secondes, avec un mouvement doux (ease-out) */
+    /* C'est rapide et fluide — l'élément apparaît en un clin d'oeil sans être brutal */
+    animation: fade-in 0.2s ease-out;
+}

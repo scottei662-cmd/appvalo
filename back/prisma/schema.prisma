@@ -1,0 +1,242 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+// ============================================
+// Better Auth models
+// ============================================
+
+model User {
+  id            String    @id
+  name          String
+  gameName      String?
+  tagLine       String?
+  email         String    @unique
+  emailVerified Boolean   @default(false)
+  image         String?
+  role          UserRole  @default(USER)
+  createdAt     DateTime  @default(now())
+  updatedAt     DateTime  @updatedAt
+  sessions      Session[]
+  accounts      Account[]
+  builds        Build[]
+  images        Image[]
+
+  @@map("user")
+}
+
+enum UserRole {
+  USER
+  ADMIN
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime
+  token     String   @unique
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id])
+
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id])
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime?
+  refreshTokenExpiresAt DateTime?
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now())
+  updatedAt             DateTime  @updatedAt
+
+  @@map("account")
+}
+
+model Verification {
+  id         String    @id
+  identifier String
+  value      String
+  expiresAt  DateTime
+  createdAt  DateTime? @default(now())
+  updatedAt  DateTime? @updatedAt
+
+  @@map("verification")
+}
+
+// ============================================
+// Uploaded images (Cloudinary)
+// ============================================
+
+model Image {
+  id        Int      @id @default(autoincrement())
+  url       String
+  publicId  String
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  createdAt DateTime @default(now())
+
+  @@map("image")
+}
+
+// ============================================
+// Game reference data
+// ============================================
+
+model Agent {
+  id            String    @id @default(cuid())
+  name          String    @unique
+  description   String
+  biography     String
+  origin        String
+  role          Role
+  portrait      String
+  fullPortrait  String?
+  background    String?
+  abilities     Ability[]
+  builds        Build[]
+
+  @@map("agent")
+}
+
+model Ability {
+  id          String @id @default(cuid())
+  name        String
+  icon        String
+  preview     String?
+  charges     Int
+  keyboardKey String
+  description String
+
+  agentId String
+  agent   Agent  @relation(fields: [agentId], references: [id], onDelete: Cascade)
+
+  @@map("ability")
+}
+
+enum Role {
+  Controller
+  Duelist
+  Initiator
+  Sentinel
+}
+
+model Map {
+  id     String @id @default(cuid())
+  name   String @unique
+  image  String
+  builds BuildMap[]
+
+  @@map("map")
+}
+
+model Weapon {
+  id       String @id @default(cuid())
+  name     String @unique
+  image    String
+  category WeaponCategory
+  builds   BuildWeapon[]
+
+  @@map("weapon")
+}
+
+enum WeaponCategory {
+  Sidearm
+  SMG
+  Shotgun
+  Rifle
+  Sniper
+  Heavy
+  Melee
+}
+
+// ============================================
+// News (scraped from playvalorant.com)
+// ============================================
+
+model News {
+  id          String   @id @default(cuid())
+  title       String
+  description String
+  image       String?
+  url         String   @unique
+  type        NewsType
+  date        DateTime
+  createdAt   DateTime @default(now())
+
+  @@index([date])
+  @@index([type])
+  @@map("news")
+}
+
+enum NewsType {
+  News
+  PatchNote
+  GameUpdate
+}
+
+// ============================================
+// User builds
+// ============================================
+
+model Build {
+  id        String    @id @default(cuid())
+  name      String
+  gameplay  Gameplay
+  notes     String?
+  createdAt DateTime  @default(now())
+  updatedAt DateTime  @updatedAt
+
+  agentId String
+  agent   Agent  @relation(fields: [agentId], references: [id])
+
+  userId String
+  user   User   @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  maps    BuildMap[]
+  weapons BuildWeapon[]
+
+  @@index([userId])
+  @@index([agentId])
+  @@map("build")
+}
+
+model BuildMap {
+  buildId String
+  build   Build  @relation(fields: [buildId], references: [id], onDelete: Cascade)
+  mapId   String
+  map     Map    @relation(fields: [mapId], references: [id])
+
+  @@id([buildId, mapId])
+  @@map("build_map")
+}
+
+model BuildWeapon {
+  buildId  String
+  build    Build  @relation(fields: [buildId], references: [id], onDelete: Cascade)
+  weaponId String
+  weapon   Weapon @relation(fields: [weaponId], references: [id])
+
+  @@id([buildId, weaponId])
+  @@map("build_weapon")
+}
+
+enum Gameplay {
+  Aggressive
+  Defensive
+  Polyvalent
+}
