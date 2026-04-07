@@ -1,6 +1,6 @@
 // L'URL de base de notre serveur API — c'est l'adresse du "restaurant" où on va chercher nos données
 // En développement, le serveur tourne sur notre machine (localhost) sur le port 3000
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000";
+const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
 
 // Fonction générique pour faire des requêtes HTTP au serveur — c'est le livreur qui va chercher les commandes
 // Elle prend un chemin (path) et des options facultatives (méthode, corps, headers, etc.)

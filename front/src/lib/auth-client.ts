@@ -7,7 +7,7 @@ import { createAuthClient } from "better-auth/react";
 // baseURL pointe vers notre API backend — c'est là que le vigile vérifie les identifiants
 // Le client saura où envoyer les demandes de connexion et d'inscription
 export const authClient = createAuthClient({
-    baseURL: import.meta.env.VITE_API_URL || "http://localhost:8000",
+    baseURL: import.meta.env.VITE_API_URL || "http://localhost:3000",
 });
 
 // On extrait les fonctions utiles du client d'authentification pour les utiliser facilement partout

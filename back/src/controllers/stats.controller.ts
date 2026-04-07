@@ -8,9 +8,11 @@ export const getAccount = async (req: Request, res: Response) => {
     // On ouvre un bloc "essayer", comme mettre un filet de sécurité avant de faire une acrobatie
     try {
         // On récupère le nom et le tag depuis l'URL, comme lire le prénom et le numéro sur le badge du joueur
-        const { name, tag } = req.params;
+        const name = req.params.name as string
+        const tag = req.params.tag as string
         // On demande au service de trouver le compte avec ce nom et ce tag, comme chercher dans l'annuaire
         const data = await statsService.getAccount(name, tag);
+        
         // On renvoie les données du compte au client, comme donner la fiche au visiteur
         res.json(data);
     // Si quelque chose se passe mal, on attrape l'erreur (avec le type "any" pour accéder aux propriétés)
@@ -27,7 +29,8 @@ export const getMMR = async (req: Request, res: Response) => {
     // On ouvre un bloc "essayer", comme mettre un filet de sécurité
     try {
         // On récupère le nom et le tag depuis l'URL, comme lire le badge du joueur
-        const { name, tag } = req.params;
+        const name = req.params.name as string
+        const tag = req.params.tag as string
         // On vérifie si une région est spécifiée dans les paramètres, comme demander "dans quelle école ?"
         const region = typeof req.query.region === "string" ? req.query.region : undefined;
         // On demande au service le MMR du joueur dans cette région, comme demander la note au professeur
@@ -48,7 +51,8 @@ export const getMMRHistory = async (req: Request, res: Response) => {
     // On ouvre un bloc "essayer", comme mettre un filet de sécurité
     try {
         // On récupère le nom et le tag depuis l'URL, comme lire le badge du joueur
-        const { name, tag } = req.params;
+        const name = req.params.name as string
+        const tag = req.params.tag as string
         // On vérifie si une région est spécifiée, comme demander "dans quel pays ?"
         const region = typeof req.query.region === "string" ? req.query.region : undefined;
         // On demande au service l'historique de MMR du joueur, comme demander le carnet de notes complet
@@ -69,7 +73,8 @@ export const getMatches = async (req: Request, res: Response) => {
     // On ouvre un bloc "essayer", comme mettre un filet de sécurité
     try {
         // On récupère le nom et le tag depuis l'URL, comme lire le badge du joueur
-        const { name, tag } = req.params;
+        const name = req.params.name as string
+        const tag = req.params.tag as string
         // On vérifie si une région est spécifiée, comme demander "dans quel stade ?"
         const region = typeof req.query.region === "string" ? req.query.region : undefined;
         // On vérifie si un nombre maximum de parties est demandé, comme dire "montre-moi seulement les 5 derniers matchs"
@@ -92,7 +97,8 @@ export const getStoredMatches = async (req: Request, res: Response) => {
     // On ouvre un bloc "essayer", comme mettre un filet de sécurité
     try {
         // On récupère le nom et le tag depuis l'URL, comme lire le badge du joueur
-        const { name, tag } = req.params;
+        const name = req.params.name as string
+        const tag = req.params.tag as string
         // On vérifie si une région est spécifiée, comme demander "quel championnat ?"
         const region = typeof req.query.region === "string" ? req.query.region : undefined;
         // On demande au service les parties stockées du joueur, comme aller chercher les cassettes dans l'armoire
@@ -113,7 +119,7 @@ export const getMatch = async (req: Request, res: Response) => {
     // On ouvre un bloc "essayer", comme mettre un filet de sécurité
     try {
         // On récupère l'identifiant du match depuis l'URL, comme lire le numéro du ticket du match
-        const { matchId } = req.params;
+        const matchId = req.params.matchId as string
         // On vérifie si une région est spécifiée, comme demander "dans quel pays ce match a été joué ?"
         const region = typeof req.query.region === "string" ? req.query.region : undefined;
         // On demande au service les détails de ce match précis, comme aller chercher le résumé du match dans les archives

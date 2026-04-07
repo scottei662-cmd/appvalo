@@ -1,6 +1,6 @@
 // On importe Express, le framework qui crée notre serveur web (comme un serveur de restaurant qui prend les commandes)
 // On importe aussi les types Request et Response pour dire à TypeScript à quoi ressemblent les requêtes et réponses
-import express, { Request, Response } from 'express';
+import express, { type Express, Request, Response } from 'express';
 // On importe cors, un module qui permet à notre API d'accepter des requêtes venant d'un autre site web (comme autoriser un ami d'une autre école à entrer dans ta cantine)
 import cors from "cors";
 // On importe toNodeHandler de better-auth, qui transforme les requêtes d'authentification en quelque chose que Node.js comprend (comme un traducteur)
@@ -23,7 +23,7 @@ import userRouter from "@/routes/user.route";
 import imageRouter from "@/routes/image.route";
 
 // On crée notre application Express — c'est le coeur de notre serveur, comme le cerveau qui coordonne tout
-const app = express();
+const app : Express = express();
 
 // On configure CORS pour autoriser uniquement le frontend local (localhost:5173) à communiquer avec notre API
 // C'est comme une liste d'invités : seul le frontend a le droit d'envoyer des requêtes
